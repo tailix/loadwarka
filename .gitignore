@@ -5,6 +5,7 @@
 *.a
 *.bin
 *.c.d
+*.img
 *.o
 
 .deps/

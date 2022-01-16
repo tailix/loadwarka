@@ -37,6 +37,3 @@ _start:
     int $0x10
 _loop:
     jmp _loop
-_end:
-.fill 510 - (_end - _start), 1, 0
-.byte 0x55, 0xAA

@@ -27,6 +27,6 @@ AC_PROG_CC_C99
 AC_PROG_RANLIB
 AC_C_INLINE
 AC_CHECK_HEADER_STDBOOL
-AC_CHECK_HEADERS([stdarg.h stddef.h stdint.h stdio.h])
+AC_CHECK_HEADERS([stdarg.h stddef.h stdint.h stdio.h string.h])
 
 AC_OUTPUT
