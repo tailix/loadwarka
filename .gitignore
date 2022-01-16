@@ -6,6 +6,7 @@
 *.bin
 *.c.d
 *.o
+
 .deps/
 .dirstamp
 
