@@ -16,6 +16,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -49,33 +50,51 @@ struct Mbr {
 }
 __attribute__((packed));
 
+static bool create_mbr_file(
+    const char *output_filename,
+    uint32_t disk_id,
+    const char *bootstrap_filename
+);
+
 int main()
 {
+    if (create_mbr_file("disk.img", 0xf01834d0, "src/x86_boot_sector.bin")) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+bool create_mbr_file(
+    const char *const output_filename,
+    const uint32_t disk_id,
+    const char *const bootstrap_filename
+) {
     struct Mbr mbr;
 
     {
         memset(&mbr, 0, sizeof(mbr));
 
         mbr.info.magic = MBR_MAGIC;
-        mbr.info.disk_id = 0xf01834d0;
+        mbr.info.disk_id = disk_id;
         mbr.info.reserved = 0;
     }
 
-    {
-        FILE *fd = fopen("src/x86_boot_sector.bin", "r");
+    if (bootstrap_filename) {
+        FILE *fd = fopen(bootstrap_filename, "r");
         if (fd == NULL) {
             fprintf(stderr, "Can't open bootstrap file\n");
-            return 1;
+            return false;
         }
 
         const size_t size = fread(&mbr.bootstrap, 1, MBR_BOOTSTRAP_SIZE, fd);
         if (size == 0) {
             fprintf(stderr, "Empty bootstrap file\n");
-            return 1;
+            return false;
         }
         if (!feof(fd)) {
             fprintf(stderr, "Too long bootstrap file\n");
-            return 1;
+            return false;
         }
 
         fclose(fd);
@@ -92,20 +111,20 @@ int main()
     }
 
     {
-        FILE *fd = fopen("disk.img", "wb");
+        FILE *fd = fopen(output_filename, "wb");
         if (fd == NULL) {
             fprintf(stderr, "Can't open image file\n");
-            return 1;
+            return false;
         }
 
         const size_t size = fwrite(mbr_ptr, 1, sizeof(mbr), fd);
         if (size != sizeof(mbr)) {
             fprintf(stderr, "Can't write image file\n");
-            return 1;
+            return false;
         }
 
         fclose(fd);
     }
 
-    return 0;
+    return true;
 }
