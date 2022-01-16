@@ -57,7 +57,7 @@ int main()
         memset(&mbr, 0, sizeof(mbr));
 
         mbr.info.magic = MBR_MAGIC;
-        mbr.info.disk_id = 0;
+        mbr.info.disk_id = 0xf01834d0;
         mbr.info.reserved = 0;
     }
 
