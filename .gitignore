@@ -1,3 +1,7 @@
+##########################
+# Common generated files #
+##########################
+
 *.a
 *.bin
 *.c.d
@@ -5,32 +9,50 @@
 .deps/
 .dirstamp
 
-/Makefile
-/Makefile.in
+############################
+# Always generated in root #
+############################
+
 /aclocal.m4
 /ar-lib
 /autom4te.cache/
 /autoscan.log
 /compile
 /config.guess
-/config.h
 /config.h.in
 /config.h.in~
-/config.log
-/config.status
 /config.sub
 /configure
 /configure.ac~
-/configure.scan
 /configure~
 /depcomp
 /install-sh
+/Makefile.in
 /missing
-/stamp-h1
 /test-driver
-/test-suite.log
-/tests/test*.log
-/tests/test*.trs
+
+########################
+# To build out of root #
+########################
 
 /build/native/*
 !/build/native/.keep
+
+###########################################
+# Only generated when configuring in root #
+###########################################
+
+/config.h
+/config.log
+/config.status
+/stamp-h1
+/test-suite.log
+
+/Makefile
+
+/testyboot
+
+/examples/*.log
+/examples/*.trs
+/tests/test*.log
+/tests/test*.trs
