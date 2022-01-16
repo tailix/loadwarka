@@ -1,4 +1,5 @@
 *.a
+*.bin
 *.c.d
 *.o
 .deps/
