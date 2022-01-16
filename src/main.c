@@ -57,16 +57,36 @@ static bool create_mbr_file(
     const char *bootstrap_filename
 );
 
-int main()
+int main(const int argc, char **const argv)
 {
-    const bool result = create_mbr_file(
-        true,
-        "disk.img",
-        0xf01834d0,
-        "src/x86_boot_sector.bin"
-    );
+    if (argc < 2) {
+        fprintf(stderr, "Invalid usage\n");
+        return 1;
+    }
 
-    return result ? 0 : 1;
+    const char *const format = argv[1];
+
+    if (strcmp(format, "mbr") == 0) {
+        if (argc != 3 && argc != 4) {
+            fprintf(stderr, "Invalid usage\n");
+            return 1;
+        }
+
+        const char *const output_filename = argv[2];
+        const char *const bootstrap_filename = argc == 3 ? NULL :argv[3];
+
+        const bool result = create_mbr_file(
+            true,
+            output_filename,
+            0xf01834d0,
+            bootstrap_filename
+        );
+        if (!result) return 1;
+    } else {
+        fprintf(stderr, "Invalid format: %s\n", format);
+    }
+
+    return 0;
 }
 
 bool create_mbr_file(
