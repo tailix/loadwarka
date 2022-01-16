@@ -16,7 +16,36 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#include <stdint.h>
 #include <stdio.h>
+
+#define MBR_SIZE 512
+#define MBR_ENTRIES 4
+#define MBR_MAGIC 0xAA55
+
+struct MbrEntry {
+    uint8_t  drive_attributes;
+    unsigned start_chs_address : 24;
+    uint8_t  partition_type;
+    unsigned last_chs_address : 24;
+    uint32_t start_lba;
+    uint32_t sectors_count;
+}
+__attribute__((packed));
+
+struct MbrInfo {
+    uint32_t disk_id;
+    uint16_t reserved;
+    struct MbrEntry entries[MBR_ENTRIES];
+    uint16_t magic;
+}
+__attribute__((packed));
+
+struct Mbr {
+    uint8_t bootstrap[MBR_SIZE - sizeof(struct MbrInfo)];
+    struct MbrInfo info;
+}
+__attribute__((packed));
 
 int main()
 {
