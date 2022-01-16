@@ -103,6 +103,19 @@ bool create_mbr_file(
         mbr.info.magic = MBR_MAGIC;
         mbr.info.disk_id = disk_id;
         mbr.info.reserved = 0;
+
+        // 00
+        mbr.info.entries[0].drive_attributes = 0;
+        // 00 02 00
+        mbr.info.entries[0].start_chs_address = 0x0200;
+        // 01
+        mbr.info.entries[0].partition_type = 1;
+        // 02 03 00
+        mbr.info.entries[0].last_chs_address = 0x0302;
+        // 01 00 00 00
+        mbr.info.entries[0].start_lba = 0x01;
+        // 80 00 00 00
+        mbr.info.entries[0].sectors_count = 0x80;
     }
 
     if (bootstrap_filename) {
