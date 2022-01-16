@@ -57,3 +57,11 @@
 /examples/*.trs
 /tests/test*.log
 /tests/test*.trs
+
+###############
+# Vendor code #
+###############
+
+/vendor/*
+!/vendor/coreboot
+!/vendor/seabios
