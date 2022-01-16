@@ -135,22 +135,22 @@ bool create_mbr_file(
             }
             printf("\n");
         }
+    }
 
-        {
-            FILE *fd = fopen(output_filename, "wb");
-            if (fd == NULL) {
-                fprintf(stderr, "Can't open image file\n");
-                return false;
-            }
-
-            const size_t size = fwrite(mbr_ptr, 1, sizeof(mbr), fd);
-            if (size != sizeof(mbr)) {
-                fprintf(stderr, "Can't write image file\n");
-                return false;
-            }
-
-            fclose(fd);
+    {
+        FILE *fd = fopen(output_filename, "wb");
+        if (fd == NULL) {
+            fprintf(stderr, "Can't open image file\n");
+            return false;
         }
+
+        const size_t size = fwrite(mbr_ptr, 1, sizeof(mbr), fd);
+        if (size != sizeof(mbr)) {
+            fprintf(stderr, "Can't write image file\n");
+            return false;
+        }
+
+        fclose(fd);
     }
 
     return true;
