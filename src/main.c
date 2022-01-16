@@ -51,6 +51,7 @@ struct Mbr {
 __attribute__((packed));
 
 static bool create_mbr_file(
+    bool print_debug,
     const char *output_filename,
     uint32_t disk_id,
     const char *bootstrap_filename
@@ -58,14 +59,18 @@ static bool create_mbr_file(
 
 int main()
 {
-    if (create_mbr_file("disk.img", 0xf01834d0, "src/x86_boot_sector.bin")) {
-        return 0;
-    } else {
-        return 1;
-    }
+    const bool result = create_mbr_file(
+        true,
+        "disk.img",
+        0xf01834d0,
+        "src/x86_boot_sector.bin"
+    );
+
+    return result ? 0 : 1;
 }
 
 bool create_mbr_file(
+    const bool print_debug,
     const char *const output_filename,
     const uint32_t disk_id,
     const char *const bootstrap_filename
@@ -102,28 +107,30 @@ bool create_mbr_file(
 
     uint8_t *mbr_ptr = (uint8_t*)&mbr;
 
-    for (size_t i = 0; i < 512 / 16; ++i) {
-        printf("%02x", mbr_ptr[i * 16]);
-        for (size_t j = 1; j < 16; ++j) {
-            printf(" %02x", mbr_ptr[i * 16 + j]);
-        }
-        printf("\n");
-    }
-
-    {
-        FILE *fd = fopen(output_filename, "wb");
-        if (fd == NULL) {
-            fprintf(stderr, "Can't open image file\n");
-            return false;
+    if (print_debug) {
+        for (size_t i = 0; i < 512 / 16; ++i) {
+            printf("%02x", mbr_ptr[i * 16]);
+            for (size_t j = 1; j < 16; ++j) {
+                printf(" %02x", mbr_ptr[i * 16 + j]);
+            }
+            printf("\n");
         }
 
-        const size_t size = fwrite(mbr_ptr, 1, sizeof(mbr), fd);
-        if (size != sizeof(mbr)) {
-            fprintf(stderr, "Can't write image file\n");
-            return false;
-        }
+        {
+            FILE *fd = fopen(output_filename, "wb");
+            if (fd == NULL) {
+                fprintf(stderr, "Can't open image file\n");
+                return false;
+            }
 
-        fclose(fd);
+            const size_t size = fwrite(mbr_ptr, 1, sizeof(mbr), fd);
+            if (size != sizeof(mbr)) {
+                fprintf(stderr, "Can't write image file\n");
+                return false;
+            }
+
+            fclose(fd);
+        }
     }
 
     return true;
