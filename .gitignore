@@ -34,15 +34,6 @@
 
 /Makefile.in
 
-########################
-# To build out of root #
-########################
-
-/build/default/*
-!/build/default/config
-/build/dev/*
-!/build/dev/config
-
 ###########################################
 # Only generated when configuring in root #
 ###########################################
