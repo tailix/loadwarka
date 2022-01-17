@@ -21,34 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MBR_SIZE 512
-#define MBR_BOOTSTRAP_SIZE (MBR_SIZE - sizeof(struct MbrInfo))
-#define MBR_ENTRIES 4
-#define MBR_MAGIC 0xAA55
-
-struct MbrEntry {
-    uint8_t  drive_attributes;
-    unsigned start_chs_address : 24;
-    uint8_t  partition_type;
-    unsigned last_chs_address : 24;
-    uint32_t start_lba;
-    uint32_t sectors_count;
-}
-__attribute__((packed));
-
-struct MbrInfo {
-    uint32_t disk_id;
-    uint16_t reserved;
-    struct MbrEntry entries[MBR_ENTRIES];
-    uint16_t magic;
-}
-__attribute__((packed));
-
-struct Mbr {
-    uint8_t bootstrap[MBR_BOOTSTRAP_SIZE];
-    struct MbrInfo info;
-}
-__attribute__((packed));
+#include <kernaux/mbr.h>
 
 static bool create_mbr_file(
     bool print_debug,
@@ -95,12 +68,12 @@ bool create_mbr_file(
     const uint32_t disk_id,
     const char *const bootstrap_filename
 ) {
-    struct Mbr mbr;
+    struct KernAux_Mbr mbr;
 
     {
         memset(&mbr, 0, sizeof(mbr));
 
-        mbr.info.magic = MBR_MAGIC;
+        mbr.info.magic = KERNAUX_MBR_MAGIC;
         mbr.info.disk_id = disk_id;
         mbr.info.reserved = 0;
 
@@ -125,7 +98,7 @@ bool create_mbr_file(
             return false;
         }
 
-        const size_t size = fread(&mbr.bootstrap, 1, MBR_BOOTSTRAP_SIZE, fd);
+        const size_t size = fread(&mbr.bootstrap, 1, KERNAUX_MBR_BOOTSTRAP_SIZE, fd);
         if (size == 0) {
             fprintf(stderr, "Empty bootstrap file\n");
             return false;
