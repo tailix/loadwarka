@@ -1,9 +1,9 @@
-[submodule "vendor/seabios"]
-	path = vendor/seabios
-	url = https://review.coreboot.org/seabios.git
 [submodule "vendor/coreboot"]
 	path = vendor/coreboot
 	url = https://review.coreboot.org/coreboot.git
 [submodule "vendor/libkernaux"]
 	path = vendor/libkernaux
 	url = https://github.com/tailix/libkernaux.git
+[submodule "vendor/seabios"]
+	path = vendor/seabios
+	url = https://review.coreboot.org/seabios.git
