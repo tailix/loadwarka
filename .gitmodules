@@ -4,6 +4,7 @@
 [submodule "vendor/cross"]
 	path = vendor/cross
 	url = https://github.com/tailix/cross.git
+	ignore = dirty
 [submodule "vendor/libkernaux"]
 	path = vendor/libkernaux
 	url = https://github.com/tailix/libkernaux.git
