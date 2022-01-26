@@ -57,50 +57,6 @@ start:
     mov $0x7e00, %bx /* Address             */
     int $0x13
 
-    mov $0x0E, %ah
-    mov $'H', %al
-    int $0x10
-    mov $'e', %al
-    int $0x10
-    mov $'l', %al
-    int $0x10
-    mov $'l', %al
-    int $0x10
-    mov $'o', %al
-    int $0x10
-    mov $' ', %al
-    int $0x10
-    mov $'f', %al
-    int $0x10
-    mov $'r', %al
-    int $0x10
-    mov $'o', %al
-    int $0x10
-    mov $'m', %al
-    int $0x10
-    mov $' ', %al
-    int $0x10
-    mov $'S', %al
-    int $0x10
-    mov $'t', %al
-    int $0x10
-    mov $'a', %al
-    int $0x10
-    mov $'g', %al
-    int $0x10
-    mov $'e', %al
-    int $0x10
-    mov $' ', %al
-    int $0x10
-    mov $'1', %al
-    int $0x10
-    mov $'!', %al
-    int $0x10
-    mov $'\r', %al
-    int $0x10
-    mov $'\n', %al
-    int $0x10
-
     ljmp $0, $STAGE2_ADDR
 
 hang:
