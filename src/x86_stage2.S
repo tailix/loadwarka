@@ -21,22 +21,21 @@
 #include "config.h"
 #endif
 
-#define ADDRESS(x) (x - _start + 0x7e00)
+#include "x86_common.h"
 
 .code16
 .global _start
 .section .text
-_start:
-    ljmp $0, $ADDRESS(start)
+STAGE2_START
 
 hello: .string "Hello, World!\r\n"
 
-start:
-    mov $ADDRESS(hello), %si
+main:
+    mov $STAGE2_ADDR(hello), %si
     call print_str
-    mov $ADDRESS(hello), %si
+    mov $STAGE2_ADDR(hello), %si
     call print_str
-    mov $ADDRESS(hello), %si
+    mov $STAGE2_ADDR(hello), %si
     call print_str
 
 hang:

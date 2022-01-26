@@ -21,21 +21,16 @@
 #include "config.h"
 #endif
 
-#define STACK_ADDR  0x2000
-#define STAGE1_ADDR 0x7c00
-#define STAGE2_ADDR 0x7e00
-
-#define ADDRESS(x) (x - _start + STAGE1_ADDR)
+#include "x86_common.h"
 
 .code16
 .global _start
 .section .text
-_start:
-    ljmp $0, $ADDRESS(start)
+STAGE1_START
 
 disk: .byte 0
 
-start:
+main:
     cli
     xor %ax, %ax
     mov %ax, %ss
@@ -43,9 +38,9 @@ start:
     mov %ax, %es
     mov %ax, %fs
     mov %ax, %gs
-    mov $STACK_ADDR, %sp
+    mov $STACK_BASE, %sp
 
-    mov %dl, ADDRESS(disk)
+    mov %dl, STAGE1_ADDR(disk)
 
     mov $0x02,        %ah
     mov $1,           %al /* Sectors count       */
@@ -53,10 +48,10 @@ start:
     mov $0,           %ch /* Cylinder            */
     mov $0,           %dh /* Head                */
     mov $2,           %cl /* Cylinder and sector */
-    mov $STAGE2_ADDR, %bx /* Address             */
+    mov $STAGE2_BASE, %bx /* Address             */
     int $0x13
 
-    ljmp $0, $STAGE2_ADDR
+    ljmp $0, $STAGE2_BASE
 
 hang:
     cli
