@@ -7,6 +7,9 @@
 _start:
     ljmp $0, $(start - _start + 0x7c00)
 
+disk:
+    .byte 0
+
 start:
     cli
     xor %ax, %ax
@@ -16,6 +19,8 @@ start:
     mov %ax, %fs
     mov %ax, %gs
     mov $0x2000, %sp
+
+    mov %dl, (disk - _start + 0x7c00)
 
     mov $0x02,   %ah
     mov $1,      %al /* Sectors count       */
