@@ -47,13 +47,13 @@ start:
 
     mov %dl, ADDRESS(disk)
 
-    mov $0x02,   %ah
-    mov $1,      %al /* Sectors count       */
-    mov $0x80,   %dl /* Drive               */
-    mov $0,      %ch /* Cylinder            */
-    mov $0,      %dh /* Head                */
-    mov $2,      %cl /* Cylinder and sector */
-    mov $0x7e00, %bx /* Address             */
+    mov $0x02,        %ah
+    mov $1,           %al /* Sectors count       */
+    mov $0x80,        %dl /* Drive               */
+    mov $0,           %ch /* Cylinder            */
+    mov $0,           %dh /* Head                */
+    mov $2,           %cl /* Cylinder and sector */
+    mov $STAGE2_ADDR, %bx /* Address             */
     int $0x13
 
     ljmp $0, $STAGE2_ADDR
