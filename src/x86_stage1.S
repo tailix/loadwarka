@@ -1,11 +1,18 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#define STACK_ADDR  0x2000
+#define STAGE1_ADDR 0x7c00
+#define STAGE2_ADDR 0x7e00
+
+#define ADDRESS(x) (x - _start + STAGE1_ADDR)
+
 .code16
 .global _start
 .section .text
 _start:
-    ljmp $0, $(start - _start + 0x7c00)
+    ljmp $0, $ADDRESS(start)
 
 disk:
     .byte 0
@@ -18,9 +25,9 @@ start:
     mov %ax, %es
     mov %ax, %fs
     mov %ax, %gs
-    mov $0x2000, %sp
+    mov $STACK_ADDR, %sp
 
-    mov %dl, (disk - _start + 0x7c00)
+    mov %dl, ADDRESS(disk)
 
     mov $0x02,   %ah
     mov $1,      %al /* Sectors count       */
@@ -75,7 +82,7 @@ start:
     mov $'\n', %al
     int $0x10
 
-    ljmp $0, $0x7e00
+    ljmp $0, $STAGE2_ADDR
 
 hang:
     cli
