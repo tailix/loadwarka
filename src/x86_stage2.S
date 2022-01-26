@@ -1,4 +1,5 @@
 /*
+    Copyright (c) 2008-2009 Micah Elizabeth Scott
     Copyright (c) 2022 Alex Kotov <kotovalexarian@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
@@ -19,43 +20,42 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#define ADDRESS(x) (x - _start + 0x7e00)
+
 .code16
 .global _start
 .section .text
 _start:
-    mov $0x0E, %ah
-    mov $'H', %al
-    int $0x10
-    mov $'e', %al
-    int $0x10
-    mov $'l', %al
-    int $0x10
-    mov $'l', %al
-    int $0x10
-    mov $'o', %al
-    int $0x10
-    mov $',', %al
-    int $0x10
-    mov $' ', %al
-    int $0x10
-    mov $'W', %al
-    int $0x10
-    mov $'o', %al
-    int $0x10
-    mov $'r', %al
-    int $0x10
-    mov $'l', %al
-    int $0x10
-    mov $'d', %al
-    int $0x10
-    mov $'!', %al
-    int $0x10
-    mov $'\r', %al
-    int $0x10
-    mov $'\n', %al
-    int $0x10
+    ljmp $0, $ADDRESS(start)
+
+hello: .string "Hello, World!\r\n"
+
+start:
+    mov $ADDRESS(hello), %si
+    call print_str
+    mov $ADDRESS(hello), %si
+    call print_str
+    mov $ADDRESS(hello), %si
+    call print_str
 
 hang:
     cli
     hlt
     jmp hang
+
+do_ret:
+    ret
+
+print_char:
+    mov $0x0E,   %ah
+    mov $0x0001, %bx
+    int $0x10
+    jmp do_ret
+
+print_str:
+    lodsb
+    test %al, %al
+    jz do_ret
+    call print_char
+    jmp print_str

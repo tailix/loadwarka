@@ -33,8 +33,7 @@
 _start:
     ljmp $0, $ADDRESS(start)
 
-disk:
-    .byte 0
+disk: .byte 0
 
 start:
     cli
