@@ -5,6 +5,15 @@
 .global _start
 .section .text
 _start:
+    cli
+    xor %ax, %ax
+    mov %ax, %ss
+    mov %ax, %ds
+    mov %ax, %es
+    mov %ax, %fs
+    mov %ax, %gs
+    mov $0x2000, %sp
+
     mov $0x02,   %ah
     mov $1,      %al /* Sectors count       */
     mov $0x80,   %dl /* Drive               */
