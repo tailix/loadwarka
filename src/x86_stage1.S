@@ -26,9 +26,11 @@
 .code16
 .global _start
 .section .text
-STAGE1_START
+_start:
+    ljmp $0, $STAGE1_ADDR(main)
 
 disk: .byte 0
+hello: .string "Hello stage 1!\r\n"
 
 main:
     cli
@@ -51,9 +53,28 @@ main:
     mov $STAGE2_BASE, %bx /* Address             */
     int $0x13
 
+    mov $STAGE1_ADDR(hello), %si
+    call print_str
+
     ljmp $0, $STAGE2_BASE
 
 hang:
     cli
     hlt
     jmp hang
+
+do_ret:
+    ret
+
+print_char:
+    mov $0x0E,   %ah
+    mov $0x0001, %bx
+    int $0x10
+    jmp do_ret
+
+print_str:
+    lodsb
+    test %al, %al
+    jz do_ret
+    call print_char
+    jmp print_str

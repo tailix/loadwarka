@@ -26,15 +26,12 @@
 .code16
 .global _start
 .section .text
-STAGE2_START
+_start:
+    ljmp $0, $STAGE2_ADDR(main)
 
-hello: .string "Hello, World!\r\n"
+hello: .string "Hello stage 2!\r\n"
 
 main:
-    mov $STAGE2_ADDR(hello), %si
-    call print_str
-    mov $STAGE2_ADDR(hello), %si
-    call print_str
     mov $STAGE2_ADDR(hello), %si
     call print_str
 

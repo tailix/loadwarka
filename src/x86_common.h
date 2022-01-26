@@ -6,11 +6,3 @@
 
 #define STAGE1_ADDR(x) (DIST(x) + STAGE1_BASE)
 #define STAGE2_ADDR(x) (DIST(x) + STAGE2_BASE)
-
-#define STAGE1_START            \
-_start:                         \
-    ljmp $0, $STAGE1_ADDR(main)
-
-#define STAGE2_START            \
-_start:                         \
-    ljmp $0, $STAGE2_ADDR(main)
