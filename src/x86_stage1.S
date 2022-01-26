@@ -5,6 +5,9 @@
 .global _start
 .section .text
 _start:
+    ljmp $0, $(start - _start + 0x7c00)
+
+start:
     cli
     xor %ax, %ax
     mov %ax, %ss
@@ -69,7 +72,7 @@ _start:
 
     ljmp $0, $0x7e00
 
-_loop:
+hang:
     cli
     hlt
-    jmp _loop
+    jmp hang

@@ -49,7 +49,7 @@ _start:
     mov $'\n', %al
     int $0x10
 
-_loop:
+hang:
     cli
     hlt
-    jmp _loop
+    jmp hang
