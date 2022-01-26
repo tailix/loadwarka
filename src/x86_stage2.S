@@ -5,15 +5,6 @@
 .global _start
 .section .text
 _start:
-    mov $0x02,   %ah
-    mov $1,      %al /* Sectors count       */
-    mov $0x80,   %dl /* Drive               */
-    mov $0,      %ch /* Cylinder            */
-    mov $0,      %dh /* Head                */
-    mov $2,      %cl /* Cylinder and sector */
-    mov $0x7e00, %bx /* Address             */
-    int $0x13
-
     mov $0x0E, %ah
     mov $'H', %al
     int $0x10
@@ -49,7 +40,7 @@ _start:
     int $0x10
     mov $' ', %al
     int $0x10
-    mov $'1', %al
+    mov $'2', %al
     int $0x10
     mov $'!', %al
     int $0x10
@@ -57,8 +48,6 @@ _start:
     int $0x10
     mov $'\n', %al
     int $0x10
-
-    ljmp $0, $0x7e00
 
 _loop:
     cli
