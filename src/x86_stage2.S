@@ -34,31 +34,19 @@ _start:
     int $0x10
     mov $'o', %al
     int $0x10
+    mov $',', %al
+    int $0x10
     mov $' ', %al
     int $0x10
-    mov $'f', %al
-    int $0x10
-    mov $'r', %al
+    mov $'W', %al
     int $0x10
     mov $'o', %al
     int $0x10
-    mov $'m', %al
+    mov $'r', %al
     int $0x10
-    mov $' ', %al
+    mov $'l', %al
     int $0x10
-    mov $'S', %al
-    int $0x10
-    mov $'t', %al
-    int $0x10
-    mov $'a', %al
-    int $0x10
-    mov $'g', %al
-    int $0x10
-    mov $'e', %al
-    int $0x10
-    mov $' ', %al
-    int $0x10
-    mov $'2', %al
+    mov $'d', %al
     int $0x10
     mov $'!', %al
     int $0x10
