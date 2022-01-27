@@ -81,12 +81,14 @@ hang:
 do_ret:
     ret
 
+// AL - char
 print_char:
     mov $0x0e,   %ah
     mov $0x0001, %bx
     int $0x10
     jmp do_ret
 
+// SI - string pointer
 print_str:
     lodsb
     test %al, %al
