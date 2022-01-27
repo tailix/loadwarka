@@ -9,7 +9,6 @@
 .global _start
 
 .section .rodata
-disk: .byte 0
 newline: .string "\r\n"
 hello: .string "Hello from stage 1!\r\n"
 size_str: .string "Stage 2 size: "
@@ -18,6 +17,9 @@ reading_sector: .string "Reading sector "
 parenth: .string " ("
 of: .string " of "
 to_address: .string ") to address "
+
+.section .data
+disk: .byte 0
 
 .section .text
 _start:

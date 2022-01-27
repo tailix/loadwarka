@@ -19,5 +19,10 @@ SECTIONS
         *(.rodata);
     }
 
+    .data : ALIGN(4)
+    {
+        *(.data);
+    }
+
     program_end = .;
 }
