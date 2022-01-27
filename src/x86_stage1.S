@@ -35,7 +35,8 @@ size: .word _end - _start
 disk: .byte 0
 newline: .string "\r\n"
 hello: .string "Hello stage 1!\r\n"
-size_str: .string "Size: "
+stage1_size_str: .string "Stage 1 size: "
+stage2_size_str: .string "Stage 2 size: "
 
 main:
     cli
@@ -61,7 +62,17 @@ main:
     mov $STAGE2_BASE, %bx /* Address             */
     int $0x13
 
-    mov $STAGE1_ADDR(size_str), %si
+    mov $STAGE1_ADDR(stage1_size_str), %si
+    call print_str
+
+    mov $STAGE1_ADDR(size), %bx
+    mov (%bx), %ax
+    call print_number
+
+    mov $STAGE1_ADDR(newline), %si
+    call print_str
+
+    mov $STAGE1_ADDR(stage2_size_str), %si
     call print_str
 
     mov $STAGE2_ADDR(size), %bx
