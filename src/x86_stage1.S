@@ -54,12 +54,12 @@ main:
     call print_str
 
     mov $0x02,        %ah
-    mov $1,           %al /* Sectors count       */
-    mov $0x80,        %dl /* Drive               */
-    mov $0,           %ch /* Cylinder            */
-    mov $0,           %dh /* Head                */
-    mov $2,           %cl /* Cylinder and sector */
-    mov $STAGE2_BASE, %bx /* Address             */
+    mov $1,           %al // Sectors count
+    mov $0x80,        %dl // Drive
+    mov $0,           %ch // Cylinder
+    mov $0,           %dh // Head
+    mov $2,           %cl // Cylinder and sector
+    mov $STAGE2_BASE, %bx // Address
     int $0x13
 
     mov $STAGE1_ADDR(size), %bx
