@@ -62,25 +62,13 @@ main:
     mov $STAGE2_BASE, %bx /* Address             */
     int $0x13
 
-    mov $STAGE1_ADDR(stage1_size_str), %si
-    call print_str
-
     mov $STAGE1_ADDR(size), %bx
     mov (%bx), %ax
-    call print_number
-
-    mov $STAGE1_ADDR(newline), %si
-    call print_str
-
-    mov $STAGE1_ADDR(stage2_size_str), %si
-    call print_str
+    call print_size
 
     mov $STAGE2_ADDR(size), %bx
     mov (%bx), %ax
-    call print_number
-
-    mov $STAGE1_ADDR(newline), %si
-    call print_str
+    call print_size
 
     ljmp $0, $STAGE2_BASE
 
@@ -138,6 +126,21 @@ print_number_notnull:
     mov %dl, %al
     add $'0', %al
     int $0x10
+
+    ret
+
+// AX - size
+print_size:
+    push %ax
+
+    mov $STAGE1_ADDR(stage1_size_str), %si
+    call print_str
+
+    pop %ax
+    call print_number
+
+    mov $STAGE1_ADDR(newline), %si
+    call print_str
 
     ret
 
