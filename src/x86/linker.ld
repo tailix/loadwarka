@@ -10,8 +10,7 @@ SECTIONS
 
     .text :
     {
-        *(.start);
-        *(.init);
+        *(.header);
         *(.text);
     }
 

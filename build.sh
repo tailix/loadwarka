@@ -9,12 +9,12 @@ CROSS="$BIN/i386-elf-"
 STAGE1_LDFLAGS='--defsym=program_start=0x7c00'
 STAGE2_LDFLAGS='--defsym=program_start=0x7e00'
 
-STAGE1_OBJS="$SRC/start.o $SRC/stage1.o"
-STAGE2_OBJS="$SRC/start.o $SRC/stage2.o"
+STAGE1_OBJS="$SRC/header.o $SRC/stage1.o"
+STAGE2_OBJS="$SRC/header.o $SRC/stage2.o"
 
 ./clean.sh
 
-${CROSS}gcc -c $SRC/start.S  -o $SRC/start.o
+${CROSS}gcc -c $SRC/header.S -o $SRC/header.o
 ${CROSS}gcc -c $SRC/stage1.S -o $SRC/stage1.o
 ${CROSS}gcc -c $SRC/stage2.S -o $SRC/stage2.o
 

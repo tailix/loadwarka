@@ -7,9 +7,9 @@
 #define STAGE2_SIZE 0x7e06
 
 .code16
-.global init
+.global _start
 
-.section .init
+.section .text
 .align 2
 size: .word 0
 
@@ -23,7 +23,7 @@ parenth: .string " ("
 of: .string " of "
 to_address: .string ") to address "
 
-init:
+_start:
     cli
     xor %ax, %ax
     mov %ax, %ss
