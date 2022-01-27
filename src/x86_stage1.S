@@ -114,33 +114,7 @@ read_loop:
     push %bx
     push %cx
 
-    mov $reading_sector, %si
-    call print_str
-
-    pop %cx
-    pop %bx
-    pop %ax
-    push %ax
-    push %bx
-    push %cx
-
-    call print_number
-
-    mov $to_address, %si
-    call print_str
-
-    pop %cx
-    pop %bx
-    pop %ax
-    push %ax
-    push %bx
-    push %cx
-
-    mov %bx, %ax
-    call print_number
-
-    mov $newline, %si
-    call print_str
+    call print_reading_state
 
     pop %cx
     pop %bx
@@ -250,6 +224,40 @@ print_number_of_sectors:
     mov $newline, %si
     call print_str
 
+    ret
+
+// AX - current sector
+// BX - current address
+print_reading_state:
+    push %ax
+    push %bx
+
+    mov $reading_sector, %si
+    call print_str
+
+    pop %bx
+    pop %ax
+    push %ax
+    push %bx
+
+    call print_number
+
+    mov $to_address, %si
+    call print_str
+
+    pop %bx
+    // pop %ax
+    // push %ax
+    push %bx
+
+    mov %bx, %ax
+    call print_number
+
+    mov $newline, %si
+    call print_str
+
+    pop %bx
+    pop %ax
     ret
 
 _end:
