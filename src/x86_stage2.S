@@ -32,19 +32,17 @@ _start:
 .align 2
 size: .word _end - _start
 
-hello: .string "Hello from stage 2!\r\n"
+hello2: .string "Hello from stage 2!\r\n"
+hello3: .string "Hello from sector 3!\r\n"
 
 main:
-    mov $STAGE2_ADDR(hello), %si
+    mov $STAGE2_ADDR(hello2), %si
     call print_str
 
     mov $STAGE2_ADDR(teststr), %si
     call print_str
 
-hang:
-    cli
-    hlt
-    jmp hang
+    ljmp $0, $STAGE2_ADDR(additional)
 
 do_ret:
     ret
@@ -67,5 +65,14 @@ print_str:
 .fill 437, 1, 0
 
 teststr: .string "Test string\r\n"
+
+additional:
+    mov $STAGE2_ADDR(hello3), %si
+    call print_str
+
+hang:
+    cli
+    hlt
+    jmp hang
 
 _end:
