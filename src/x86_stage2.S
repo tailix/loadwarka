@@ -5,6 +5,7 @@
 .code16
 .global _start
 .extern program_size
+
 .section .text
 _start:
     ljmp $0, $main

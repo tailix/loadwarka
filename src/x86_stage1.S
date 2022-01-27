@@ -11,6 +11,7 @@
 
 .code16
 .global _start
+
 .section .text
 _start:
     ljmp $0, $main
