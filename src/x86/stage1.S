@@ -2,7 +2,6 @@
 #include "config.h"
 #endif
 
-#define STACK_BASE  0x2000
 #define STAGE2_BASE 0x7e00
 #define STAGE2_SIZE (STAGE2_BASE + 8)
 
@@ -22,15 +21,6 @@ to_address: .string ") to address "
 
 .section .text
 _start:
-    cli
-    xor %ax, %ax
-    mov %ax, %ss
-    mov %ax, %ds
-    mov %ax, %es
-    mov %ax, %fs
-    mov %ax, %gs
-    mov $STACK_BASE, %sp
-
     mov %dl, disk
 
     mov $hello, %si
