@@ -108,43 +108,6 @@ finish:
     ljmp $0, $STAGE2_BASE
     ljmp $0, $hang
 
-do_ret:
-    ret
-
-// AX - number
-print_number:
-    test %ax, %ax
-    jnz print_number_notnull
-    mov $0x0e, %ah
-    mov $'0', %al
-    int $0x10
-    ret
-
-// AX - number
-print_number_notnull:
-    test %ax, %ax
-    jz do_ret
-
-    // DX - dividend high (always zero)
-    // AX - dividend low
-    xor %dx, %dx
-    // BX - divisor (always 10)
-    mov $10, %bx
-    // AX - quotient
-    // DX - remainder
-    div %bx
-
-    push %dx
-    call print_number_notnull
-    pop %dx
-
-    mov $0x0e, %ah
-    mov %dl, %al
-    add $'0', %al
-    int $0x10
-
-    ret
-
 // AX - size
 print_stage2_size:
     push %ax
