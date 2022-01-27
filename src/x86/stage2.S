@@ -21,4 +21,6 @@ _start:
     mov $newline, %si
     call print_str
 
+    call main
+
     ljmp $0, $hang
