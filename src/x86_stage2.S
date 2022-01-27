@@ -21,13 +21,11 @@
 #include "config.h"
 #endif
 
-#include "x86_common.h"
-
 .code16
 .global _start
 .section .text
 _start:
-    ljmp $0, $STAGE2_ADDR(main)
+    ljmp $0, $main
 
 .align 2
 size: .word _end - _start
@@ -36,13 +34,13 @@ hello2: .string "Hello from stage 2!\r\n"
 hello3: .string "Hello from sector 3!\r\n"
 
 main:
-    mov $STAGE2_ADDR(hello2), %si
+    mov $hello2, %si
     call print_str
 
-    mov $STAGE2_ADDR(teststr), %si
+    mov $teststr, %si
     call print_str
 
-    ljmp $0, $STAGE2_ADDR(additional)
+    ljmp $0, $additional
 
 do_ret:
     ret
@@ -67,7 +65,7 @@ print_str:
 teststr: .string "Test string\r\n"
 
 additional:
-    mov $STAGE2_ADDR(hello3), %si
+    mov $hello3, %si
     call print_str
 
 hang:

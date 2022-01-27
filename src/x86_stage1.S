@@ -21,13 +21,20 @@
 #include "config.h"
 #endif
 
-#include "x86_common.h"
+#define STACK_BASE  0x2000
+#define STAGE1_BASE 0x7c00
+#define STAGE2_BASE 0x7e00
+
+#define DIST(x) (x - _start)
+
+#define STAGE1_ADDR(x) (DIST(x) + STAGE1_BASE)
+#define STAGE2_ADDR(x) (DIST(x) + STAGE2_BASE)
 
 .code16
 .global _start
 .section .text
 _start:
-    ljmp $0, $STAGE1_ADDR(main)
+    ljmp $0, $main
 
 .align 2
 size: .word _end - _start
@@ -51,9 +58,9 @@ main:
     mov %ax, %gs
     mov $STACK_BASE, %sp
 
-    mov %dl, STAGE1_ADDR(disk)
+    mov %dl, disk
 
-    mov $STAGE1_ADDR(hello), %si
+    mov $hello, %si
     call print_str
 
     mov $0x02,        %ah
@@ -65,7 +72,7 @@ main:
     mov $STAGE2_BASE, %bx // Address
     int $0x13
 
-    mov $STAGE1_ADDR(size), %bx
+    mov $size, %bx
     mov (%bx), %ax
     call print_size
 
@@ -109,7 +116,7 @@ read_loop:
     push %bx
     push %cx
 
-    mov $STAGE1_ADDR(reading_sector), %si
+    mov $reading_sector, %si
     call print_str
 
     pop %cx
@@ -121,7 +128,7 @@ read_loop:
 
     call print_number
 
-    mov $STAGE1_ADDR(to_address), %si
+    mov $to_address, %si
     call print_str
 
     pop %cx
@@ -134,7 +141,7 @@ read_loop:
     mov %bx, %ax
     call print_number
 
-    mov $STAGE1_ADDR(newline), %si
+    mov $newline, %si
     call print_str
 
     pop %cx
@@ -221,13 +228,13 @@ print_number_notnull:
 print_size:
     push %ax
 
-    mov $STAGE1_ADDR(stage1_size_str), %si
+    mov $stage1_size_str, %si
     call print_str
 
     pop %ax
     call print_number
 
-    mov $STAGE1_ADDR(newline), %si
+    mov $newline, %si
     call print_str
 
     ret
@@ -236,13 +243,13 @@ print_size:
 print_number_of_sectors:
     push %ax
 
-    mov $STAGE1_ADDR(number_of_sectors), %si
+    mov $number_of_sectors, %si
     call print_str
 
     pop %ax
     call print_number
 
-    mov $STAGE1_ADDR(newline), %si
+    mov $newline, %si
     call print_str
 
     ret
