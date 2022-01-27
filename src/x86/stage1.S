@@ -9,9 +9,7 @@
 .global _start
 
 .section .rodata
-hello: .string "Hello from stage 1!\r\n"
 size_str: .string "Stage 2 size: "
-number_of_sectors: .string "Number of sectors: "
 reading_sector: .string "Reading sector "
 parenth: .string " ("
 of: .string " of "
@@ -19,9 +17,6 @@ to_address: .string ") to address "
 
 .section .text
 _start:
-    mov $hello, %si
-    call print_str
-
     mov $1, %ax
     mov $STAGE2_BASE, %bx
     xor %cx, %cx
@@ -56,10 +51,7 @@ _start:
     inc %ax
 no_rem:
 
-    push %ax
-    call print_number_of_sectors
-    pop %cx
-
+    mov %ax, %cx
     mov $STAGE2_BASE, %bx
     mov $1, %ax
 
@@ -111,21 +103,6 @@ print_stage2_size:
     push %ax
 
     mov $size_str, %si
-    call print_str
-
-    pop %ax
-    call print_number
-
-    mov $newline, %si
-    call print_str
-
-    ret
-
-// AX - number of sectors
-print_number_of_sectors:
-    push %ax
-
-    mov $number_of_sectors, %si
     call print_str
 
     pop %ax
