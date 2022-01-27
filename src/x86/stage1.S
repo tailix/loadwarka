@@ -8,6 +8,7 @@
 
 .code16
 .global _start
+.extern print_str
 
 .section .rodata
 disk: .byte 0
@@ -124,21 +125,6 @@ hang:
 
 do_ret:
     ret
-
-// AL - char
-print_char:
-    mov $0x0e,   %ah
-    mov $0x0001, %bx
-    int $0x10
-    ret
-
-// SI - string pointer
-print_str:
-    lodsb
-    test %al, %al
-    jz do_ret
-    call print_char
-    jmp print_str
 
 // AX - number
 print_number:

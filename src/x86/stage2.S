@@ -4,7 +4,7 @@
 
 .code16
 .global _start
-.extern program_size
+.extern print_str
 
 .section .rodata
 hello2: .string "Hello from stage 2!\r\n"
@@ -23,24 +23,6 @@ _start:
     call print_str
 
     ljmp $0, $sector3
-
-do_ret:
-    ret
-
-// AL - char
-print_char:
-    mov $0x0E,   %ah
-    mov $0x0001, %bx
-    int $0x10
-    ret
-
-// SI - string pointer
-print_str:
-    lodsb
-    test %al, %al
-    jz do_ret
-    call print_char
-    jmp print_str
 
 .fill 512, 1, 0
 
