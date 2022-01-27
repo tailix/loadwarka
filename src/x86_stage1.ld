@@ -2,12 +2,17 @@ OUTPUT_ARCH(i386)
 OUTPUT_FORMAT(binary)
 ENTRY(_start)
 
+program_start = 0x7c00;
+program_size = program_end - program_start;
+
 SECTIONS
 {
-    . = 0x7c00;
+    . = program_start;
 
     .text :
     {
         *(.text);
     }
+
+    program_end = .;
 }

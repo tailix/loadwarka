@@ -4,12 +4,13 @@
 
 .code16
 .global _start
+.extern program_size
 .section .text
 _start:
     ljmp $0, $main
 
 .align 2
-size: .word _end - _start
+size: .word program_size
 
 hello2: .string "Hello from stage 2!\r\n"
 hello3: .string "Hello from sector 3!\r\n"
@@ -67,5 +68,3 @@ hang:
     cli
     hlt
     jmp hang
-
-_end:
