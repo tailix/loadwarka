@@ -92,15 +92,22 @@ no_rem:
     push %ax
     call print_number_of_sectors
     pop %ax
+    // BX - address
+    mov $STAGE2_BASE, %bx
 
 read_loop:
+    add $512, %bx
     dec %ax
     test %ax, %ax
     jz finish
 
     push %ax
+    push %bx
+
     mov $STAGE1_ADDR(reading_sector), %si
     call print_str
+
+    pop %bx
     pop %ax
     jmp read_loop
 
