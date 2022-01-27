@@ -32,7 +32,7 @@ _start:
 .align 4
 size: .word _end - _start
 
-hello: .string "Hello stage 2!\r\n"
+hello: .string "Hello from stage 2!\r\n"
 
 main:
     mov $STAGE2_ADDR(hello), %si

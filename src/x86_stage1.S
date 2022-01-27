@@ -34,7 +34,7 @@ size: .word _end - _start
 
 disk: .byte 0
 newline: .string "\r\n"
-hello: .string "Hello stage 1!\r\n"
+hello: .string "Hello from stage 1!\r\n"
 stage1_size_str: .string "Stage 1 size: "
 stage2_size_str: .string "Stage 2 size: "
 
