@@ -8,8 +8,6 @@
 
 .code16
 .global _start
-.extern hang
-.extern print_str
 
 .section .rodata
 disk: .byte 0

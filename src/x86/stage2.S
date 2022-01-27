@@ -4,7 +4,6 @@
 
 .code16
 .global _start
-.extern print_str
 
 .section .rodata
 hello2: .string "Hello from stage 2!\r\n"
