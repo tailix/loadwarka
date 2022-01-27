@@ -61,4 +61,6 @@ print_str:
     call print_char
     jmp print_str
 
+.fill 512, 1, 0
+
 _end:

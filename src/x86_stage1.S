@@ -37,6 +37,7 @@ newline: .string "\r\n"
 hello: .string "Hello from stage 1!\r\n"
 stage1_size_str: .string "Stage 1 size: "
 stage2_size_str: .string "Stage 2 size: "
+number_of_sectors: .string "Number of sectors: "
 
 main:
     cli
@@ -69,6 +70,26 @@ main:
     mov $STAGE2_ADDR(size), %bx
     mov (%bx), %ax
     call print_size
+
+    // DX - dividend high (always zero)
+    xor %dx, %dx
+    // AX - dividend low
+    mov $STAGE2_ADDR(size), %bx
+    mov (%bx), %ax
+    // BX - divisor (always 512)
+    mov $512, %bx
+    // AX - quotient
+    // DX - remainder
+    div %bx
+
+    test %dx, %dx
+    jz no_rem
+    inc %ax
+no_rem:
+    // AX - number of sectors
+    push %ax
+    call print_number_of_sectors
+    pop %ax
 
     ljmp $0, $STAGE2_BASE
 
@@ -134,6 +155,21 @@ print_size:
     push %ax
 
     mov $STAGE1_ADDR(stage1_size_str), %si
+    call print_str
+
+    pop %ax
+    call print_number
+
+    mov $STAGE1_ADDR(newline), %si
+    call print_str
+
+    ret
+
+// AX - number of sectors
+print_number_of_sectors:
+    push %ax
+
+    mov $STAGE1_ADDR(number_of_sectors), %si
     call print_str
 
     pop %ax
