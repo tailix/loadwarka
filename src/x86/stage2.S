@@ -6,11 +6,12 @@
 .global _start
 .extern program_size
 
-.section .text
+.section .rodata
 hello2: .string "Hello from stage 2!\r\n"
 hello3: .string "Hello from sector 3!\r\n"
 hello4: .string "Hello from sector 4!\r\n"
 
+.section .text
 _start:
     mov $hello2, %si
     call print_str

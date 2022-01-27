@@ -14,5 +14,10 @@ SECTIONS
         *(.text);
     }
 
+    .rodata :
+    {
+        *(.rodata);
+    }
+
     program_end = .;
 }

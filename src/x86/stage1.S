@@ -9,7 +9,7 @@
 .code16
 .global _start
 
-.section .text
+.section .rodata
 disk: .byte 0
 newline: .string "\r\n"
 hello: .string "Hello from stage 1!\r\n"
@@ -20,6 +20,7 @@ parenth: .string " ("
 of: .string " of "
 to_address: .string ") to address "
 
+.section .text
 _start:
     cli
     xor %ax, %ax
