@@ -103,12 +103,23 @@ read_loop:
 
     push %ax
     push %bx
-
     mov $STAGE1_ADDR(reading_sector), %si
     call print_str
-
     pop %bx
     pop %ax
+
+    push %ax
+    push %bx
+    mov %al,          %cl // Cylinder and sector
+    mov $0x02,        %ah
+    mov $1,           %al // Sectors count
+    mov $0x80,        %dl // Drive
+    mov $0,           %ch // Cylinder
+    mov $0,           %dh // Head
+    int $0x13
+    pop %bx
+    pop %ax
+
     jmp read_loop
 
 finish:
