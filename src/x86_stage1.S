@@ -38,7 +38,8 @@ hello: .string "Hello from stage 1!\r\n"
 stage1_size_str: .string "Stage 1 size: "
 stage2_size_str: .string "Stage 2 size: "
 number_of_sectors: .string "Number of sectors: "
-reading_sector: .string "Reading sector...\r\n"
+reading_sector: .string "Reading sector "
+to_address: .string " to address "
 
 main:
     cli
@@ -103,8 +104,31 @@ read_loop:
 
     push %ax
     push %bx
+
     mov $STAGE1_ADDR(reading_sector), %si
     call print_str
+
+    pop %bx
+    pop %ax
+    push %ax
+    push %bx
+
+    call print_number
+
+    mov $STAGE1_ADDR(to_address), %si
+    call print_str
+
+    pop %bx
+    pop %ax
+    push %ax
+    push %bx
+
+    mov %bx, %ax
+    call print_number
+
+    mov $STAGE1_ADDR(newline), %si
+    call print_str
+
     pop %bx
     pop %ax
 
