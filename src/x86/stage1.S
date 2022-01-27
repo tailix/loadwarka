@@ -9,7 +9,6 @@
 .global _start
 
 .section .rodata
-newline: .string "\r\n"
 hello: .string "Hello from stage 1!\r\n"
 size_str: .string "Stage 2 size: "
 number_of_sectors: .string "Number of sectors: "

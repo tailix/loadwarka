@@ -5,12 +5,16 @@
 #define STACK_BASE 0x2000
 
 .code16
+.global newline
 .global disk_number
 .global restore_disk_number
 .global hang
 .global print_char
 .global print_str
 .global print_number
+
+.section .rodata
+newline: .string "\r\n"
 
 .section .data
 disk_number: .byte 0
