@@ -38,6 +38,9 @@ main:
     mov $STAGE2_ADDR(hello), %si
     call print_str
 
+    mov $STAGE2_ADDR(teststr), %si
+    call print_str
+
 hang:
     cli
     hlt
@@ -61,6 +64,8 @@ print_str:
     call print_char
     jmp print_str
 
-.fill 512, 1, 0
+.fill 437, 1, 0
+
+teststr: .string "Test string\r\n"
 
 _end:
