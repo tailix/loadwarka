@@ -40,11 +40,12 @@ size: .word _end - _start
 disk: .byte 0
 newline: .string "\r\n"
 hello: .string "Hello from stage 1!\r\n"
-stage1_size_str: .string "Stage 1 size: "
-stage2_size_str: .string "Stage 2 size: "
+size_str: .string "Stage size: "
 number_of_sectors: .string "Number of sectors: "
 reading_sector: .string "Reading sector "
-to_address: .string " to address "
+parenth: .string " ("
+of: .string " of "
+to_address: .string ") to address "
 
 main:
     cli
@@ -60,6 +61,11 @@ main:
 
     mov $hello, %si
     call print_str
+
+    mov $1, %ax
+    mov $STAGE2_BASE, %bx
+    xor %cx, %cx
+    call print_reading_state
 
     mov $0x02,        %ah
     mov $1,           %al // Sectors count
@@ -97,18 +103,19 @@ no_rem:
     push %ax
     call print_number_of_sectors
     pop %cx
-    mov $STAGE2_BASE, %bx
-    mov $2, %ax
 
-    // AX - number of sector to read
-    // BX - address
+    mov $STAGE2_BASE, %bx
+    mov $1, %ax
+
+    // AX - current sector index
+    // BX - current address
     // CX - total number of sectors
 read_loop:
+    cmp %ax, %cx
+    je finish
+
     add $512, %bx
     inc %ax
-
-    test %ax, %cx
-    jz finish
 
     push %ax
     push %bx
@@ -123,6 +130,7 @@ read_loop:
     push %bx
     push %cx
 
+    add $1, %ax
     mov %al,          %cl // Cylinder and sector
     mov $0x02,        %ah
     mov $1,           %al // Sectors count
@@ -200,7 +208,7 @@ print_number_notnull:
 print_size:
     push %ax
 
-    mov $stage1_size_str, %si
+    mov $size_str, %si
     call print_str
 
     pop %ax
@@ -226,29 +234,61 @@ print_number_of_sectors:
 
     ret
 
-// AX - current sector
+// AX - current sector index
 // BX - current address
+// CX - total number of sectors
 print_reading_state:
     push %ax
     push %bx
+    push %cx
 
     mov $reading_sector, %si
     call print_str
 
+    pop %cx
     pop %bx
     pop %ax
     push %ax
     push %bx
+    push %cx
 
+    inc %ax
+    call print_number
+
+    mov $parenth, %si
+    call print_str
+
+    pop %cx
+    pop %bx
+    pop %ax
+    push %ax
+    push %bx
+    push %cx
+
+    call print_number
+
+    mov $of, %si
+    call print_str
+
+    pop %cx
+    // pop %bx
+    // pop %ax
+    // push %ax
+    // push %bx
+    push %cx
+
+    mov %cx, %ax
     call print_number
 
     mov $to_address, %si
     call print_str
 
+    pop %cx
     pop %bx
     // pop %ax
     // push %ax
     push %bx
+    push %cx
 
     mov %bx, %ax
     call print_number
@@ -256,6 +296,7 @@ print_reading_state:
     mov $newline, %si
     call print_str
 
+    pop %cx
     pop %bx
     pop %ax
     ret
