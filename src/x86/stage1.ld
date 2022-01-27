@@ -11,6 +11,8 @@ SECTIONS
 
     .text :
     {
+        *(.start);
+        *(.init);
         *(.text);
     }
 

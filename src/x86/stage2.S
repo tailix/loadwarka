@@ -3,13 +3,10 @@
 #endif
 
 .code16
-.global _start
+.global init
 .extern program_size
 
-.section .text
-_start:
-    ljmp $0, $main
-
+.section .init
 .align 2
 size: .word program_size
 
@@ -17,7 +14,7 @@ hello2: .string "Hello from stage 2!\r\n"
 hello3: .string "Hello from sector 3!\r\n"
 hello4: .string "Hello from sector 4!\r\n"
 
-main:
+init:
     mov $hello2, %si
     call print_str
 

@@ -4,18 +4,12 @@
 
 #define STACK_BASE  0x2000
 #define STAGE2_BASE 0x7e00
-
-#define DIST(x) (x - _start)
-
-#define STAGE2_ADDR(x) (DIST(x) + STAGE2_BASE)
+#define STAGE2_SIZE 0x7e06
 
 .code16
-.global _start
+.global init
 
-.section .text
-_start:
-    ljmp $0, $main
-
+.section .init
 .align 2
 size: .word 0
 
@@ -29,7 +23,7 @@ parenth: .string " ("
 of: .string " of "
 to_address: .string ") to address "
 
-main:
+init:
     cli
     xor %ax, %ax
     mov %ax, %ss
@@ -58,14 +52,14 @@ main:
     mov $STAGE2_BASE, %bx // Address
     int $0x13
 
-    mov $STAGE2_ADDR(size), %bx
+    mov $STAGE2_SIZE, %bx
     mov (%bx), %ax
     call print_stage2_size
 
     // DX - dividend high (always zero)
     xor %dx, %dx
     // AX - dividend low
-    mov $STAGE2_ADDR(size), %bx
+    mov $STAGE2_SIZE, %bx
     mov (%bx), %ax
     // BX - divisor (always 512)
     mov $512, %bx
