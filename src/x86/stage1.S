@@ -18,13 +18,8 @@ parenth: .string " ("
 of: .string " of "
 to_address: .string ") to address "
 
-.section .data
-disk: .byte 0
-
 .section .text
 _start:
-    mov %dl, disk
-
     mov $hello, %si
     call print_str
 
@@ -107,6 +102,7 @@ read_loop:
     jmp read_loop
 
 finish:
+    call restore_disk_number
     ljmp $0, $STAGE2_BASE
     ljmp $0, $hang
 
