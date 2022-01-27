@@ -51,7 +51,7 @@ print_char:
     mov $0x0E,   %ah
     mov $0x0001, %bx
     int $0x10
-    jmp do_ret
+    ret
 
 // SI - string pointer
 print_str:
