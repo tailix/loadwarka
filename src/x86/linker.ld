@@ -8,13 +8,13 @@ SECTIONS
 {
     . = program_start;
 
-    .text :
+    .text : ALIGN(4)
     {
         *(.header);
         *(.text);
     }
 
-    .rodata :
+    .rodata : ALIGN(4)
     {
         *(.rodata);
     }
