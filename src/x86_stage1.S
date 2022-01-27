@@ -29,7 +29,7 @@
 _start:
     ljmp $0, $STAGE1_ADDR(main)
 
-.align 4
+.align 2
 size: .word _end - _start
 
 disk: .byte 0

@@ -29,7 +29,7 @@
 _start:
     ljmp $0, $STAGE2_ADDR(main)
 
-.align 4
+.align 2
 size: .word _end - _start
 
 hello: .string "Hello from stage 2!\r\n"
