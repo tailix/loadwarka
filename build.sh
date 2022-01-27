@@ -3,13 +3,14 @@
 set -e
 
 BIN='vendor/cross/root/bin'
+SRC='src/x86'
 CROSS="$BIN/i386-elf-"
 
 ./clean.sh
 
-${CROSS}gcc -c src/x86/stage1.S -o src/x86/stage1.o
-${CROSS}gcc -c src/x86/stage2.S -o src/x86/stage2.o
-${CROSS}ld -Tsrc/x86/stage1.ld -o src/x86/stage1.bin src/x86/stage1.o
-${CROSS}ld -Tsrc/x86/stage2.ld -o src/x86/stage2.bin src/x86/stage2.o
-./testyboot mbr mbr.bin src/x86/stage1.bin
-cat mbr.bin src/x86/stage2.bin > disk.img
+${CROSS}gcc -c $SRC/stage1.S -o $SRC/stage1.o
+${CROSS}gcc -c $SRC/stage2.S -o $SRC/stage2.o
+${CROSS}ld -T$SRC/stage1.ld -o $SRC/stage1.bin $SRC/stage1.o
+${CROSS}ld -T$SRC/stage2.ld -o $SRC/stage2.bin $SRC/stage2.o
+./testyboot mbr mbr.bin $SRC/stage1.bin
+cat mbr.bin $SRC/stage2.bin > disk.img
