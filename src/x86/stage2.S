@@ -7,6 +7,7 @@
 
 .section .rodata
 disk_number: .string "Disk number: "
+main_returned: .string "Main returned\r\n"
 
 .section .text
 _start:
@@ -22,5 +23,8 @@ _start:
     call print_str
 
     call main
+
+    mov $main_returned, %si
+    call print_str
 
     ljmp $0, $hang
