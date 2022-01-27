@@ -4,15 +4,12 @@
 
 #define STACK_BASE  0x2000
 #define STAGE2_BASE 0x7e00
-#define STAGE2_SIZE 0x7e06
+#define STAGE2_SIZE (STAGE2_BASE + 8)
 
 .code16
 .global _start
 
 .section .text
-.align 2
-size: .word 0
-
 disk: .byte 0
 newline: .string "\r\n"
 hello: .string "Hello from stage 1!\r\n"

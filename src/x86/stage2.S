@@ -7,9 +7,6 @@
 .extern program_size
 
 .section .text
-.align 2
-size: .word program_size
-
 hello2: .string "Hello from stage 2!\r\n"
 hello3: .string "Hello from sector 3!\r\n"
 hello4: .string "Hello from sector 4!\r\n"
