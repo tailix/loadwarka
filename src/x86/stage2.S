@@ -41,8 +41,4 @@ teststr4: .string "Test string from sector 4\r\n"
 sector4:
     mov $hello4, %si
     call print_str
-
-hang:
-    cli
-    hlt
-    jmp hang
+    ljmp $0, $hang

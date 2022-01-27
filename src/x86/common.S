@@ -3,10 +3,16 @@
 #endif
 
 .code16
+.global hang
 .global print_char
 .global print_str
 
 .section .text
+hang:
+    cli
+    hlt
+    jmp hang
+
 do_ret:
     ret
 

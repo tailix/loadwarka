@@ -8,6 +8,7 @@
 
 .code16
 .global _start
+.extern hang
 .extern print_str
 
 .section .rodata
@@ -117,11 +118,7 @@ read_loop:
 
 finish:
     ljmp $0, $STAGE2_BASE
-
-hang:
-    cli
-    hlt
-    jmp hang
+    ljmp $0, $hang
 
 do_ret:
     ret
