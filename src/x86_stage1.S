@@ -35,12 +35,12 @@ _start:
     ljmp $0, $main
 
 .align 2
-size: .word _end - _start
+size: .word 0
 
 disk: .byte 0
 newline: .string "\r\n"
 hello: .string "Hello from stage 1!\r\n"
-size_str: .string "Stage size: "
+size_str: .string "Stage 2 size: "
 number_of_sectors: .string "Number of sectors: "
 reading_sector: .string "Reading sector "
 parenth: .string " ("
@@ -76,13 +76,9 @@ main:
     mov $STAGE2_BASE, %bx // Address
     int $0x13
 
-    mov $size, %bx
-    mov (%bx), %ax
-    call print_size
-
     mov $STAGE2_ADDR(size), %bx
     mov (%bx), %ax
-    call print_size
+    call print_stage2_size
 
     // DX - dividend high (always zero)
     xor %dx, %dx
@@ -205,7 +201,7 @@ print_number_notnull:
     ret
 
 // AX - size
-print_size:
+print_stage2_size:
     push %ax
 
     mov $size_str, %si
@@ -300,5 +296,3 @@ print_reading_state:
     pop %bx
     pop %ax
     ret
-
-_end:
