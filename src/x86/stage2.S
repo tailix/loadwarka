@@ -6,12 +6,24 @@
 .global _start
 
 .section .rodata
+disk_number: .string "Disk number: "
 hello2: .string "Hello from stage 2!\r\n"
 hello3: .string "Hello from sector 3!\r\n"
 hello4: .string "Hello from sector 4!\r\n"
 
 .section .text
 _start:
+    mov $disk_number, %si
+    call print_str
+
+    call restore_disk_number
+    xor %ax, %ax
+    mov %dl, %al
+    call print_number
+
+    mov $newline, %si
+    call print_str
+
     mov $hello2, %si
     call print_str
 

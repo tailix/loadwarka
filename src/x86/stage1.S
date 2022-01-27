@@ -101,9 +101,10 @@ read_loop:
     jmp read_loop
 
 finish:
+    mov $newline, %si
+    call print_str
     call restore_disk_number
     ljmp $0, $STAGE2_BASE
-    ljmp $0, $hang
 
 // AX - size
 print_stage2_size:
