@@ -89,39 +89,47 @@ main:
     inc %ax
 no_rem:
 
-    // AX - number of sectors
     push %ax
     call print_number_of_sectors
-    pop %ax
-    // BX - address
+    pop %cx
     mov $STAGE2_BASE, %bx
+    mov $2, %ax
 
+    // AX - number of sector to read
+    // BX - address
+    // CX - total number of sectors
 read_loop:
     add $512, %bx
-    dec %ax
-    test %ax, %ax
+    inc %ax
+
+    test %ax, %cx
     jz finish
 
     push %ax
     push %bx
+    push %cx
 
     mov $STAGE1_ADDR(reading_sector), %si
     call print_str
 
+    pop %cx
     pop %bx
     pop %ax
     push %ax
     push %bx
+    push %cx
 
     call print_number
 
     mov $STAGE1_ADDR(to_address), %si
     call print_str
 
+    pop %cx
     pop %bx
     pop %ax
     push %ax
     push %bx
+    push %cx
 
     mov %bx, %ax
     call print_number
@@ -129,11 +137,13 @@ read_loop:
     mov $STAGE1_ADDR(newline), %si
     call print_str
 
+    pop %cx
     pop %bx
     pop %ax
-
     push %ax
     push %bx
+    push %cx
+
     mov %al,          %cl // Cylinder and sector
     mov $0x02,        %ah
     mov $1,           %al // Sectors count
@@ -141,9 +151,10 @@ read_loop:
     mov $0,           %ch // Cylinder
     mov $0,           %dh // Head
     int $0x13
+
+    pop %cx
     pop %bx
     pop %ax
-
     jmp read_loop
 
 finish:
