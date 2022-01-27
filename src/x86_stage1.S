@@ -38,6 +38,7 @@ hello: .string "Hello from stage 1!\r\n"
 stage1_size_str: .string "Stage 1 size: "
 stage2_size_str: .string "Stage 2 size: "
 number_of_sectors: .string "Number of sectors: "
+reading_sector: .string "Reading sector...\r\n"
 
 main:
     cli
@@ -86,11 +87,24 @@ main:
     jz no_rem
     inc %ax
 no_rem:
+
     // AX - number of sectors
     push %ax
     call print_number_of_sectors
     pop %ax
 
+read_loop:
+    dec %ax
+    test %ax, %ax
+    jz finish
+
+    push %ax
+    mov $STAGE1_ADDR(reading_sector), %si
+    call print_str
+    pop %ax
+    jmp read_loop
+
+finish:
     ljmp $0, $STAGE2_BASE
 
 hang:
