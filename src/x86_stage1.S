@@ -29,8 +29,13 @@
 _start:
     ljmp $0, $STAGE1_ADDR(main)
 
+.align 4
+size: .word _end - _start
+
 disk: .byte 0
+newline: .string "\r\n"
 hello: .string "Hello stage 1!\r\n"
+size_str: .string "Size: "
 
 main:
     cli
@@ -44,6 +49,9 @@ main:
 
     mov %dl, STAGE1_ADDR(disk)
 
+    mov $STAGE1_ADDR(hello), %si
+    call print_str
+
     mov $0x02,        %ah
     mov $1,           %al /* Sectors count       */
     mov $0x80,        %dl /* Drive               */
@@ -53,7 +61,14 @@ main:
     mov $STAGE2_BASE, %bx /* Address             */
     int $0x13
 
-    mov $STAGE1_ADDR(hello), %si
+    mov $STAGE1_ADDR(size_str), %si
+    call print_str
+
+    mov $STAGE2_ADDR(size), %bx
+    mov (%bx), %ax
+    call print_number
+
+    mov $STAGE1_ADDR(newline), %si
     call print_str
 
     ljmp $0, $STAGE2_BASE
@@ -67,7 +82,7 @@ do_ret:
     ret
 
 print_char:
-    mov $0x0E,   %ah
+    mov $0x0e,   %ah
     mov $0x0001, %bx
     int $0x10
     jmp do_ret
@@ -78,3 +93,39 @@ print_str:
     jz do_ret
     call print_char
     jmp print_str
+
+// AX - number
+print_number:
+    test %ax, %ax
+    jnz print_number_notnull
+    mov $0x0e, %ah
+    mov $'0', %al
+    int $0x10
+    ret
+
+// AX - number
+print_number_notnull:
+    test %ax, %ax
+    jz do_ret
+
+    // DX - dividend high (always zero)
+    // AX - dividend low
+    xor %dx, %dx
+    // BX - divisor (always 10)
+    mov $10, %bx
+    // AX - quotient
+    // DX - remainder
+    div %bx
+
+    push %dx
+    call print_number_notnull
+    pop %dx
+
+    mov $0x0e, %ah
+    mov %dl, %al
+    add $'0', %al
+    int $0x10
+
+    ret
+
+_end:

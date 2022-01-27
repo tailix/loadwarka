@@ -29,6 +29,9 @@
 _start:
     ljmp $0, $STAGE2_ADDR(main)
 
+.align 4
+size: .word _end - _start
+
 hello: .string "Hello stage 2!\r\n"
 
 main:
@@ -55,3 +58,5 @@ print_str:
     jz do_ret
     call print_char
     jmp print_str
+
+_end:
