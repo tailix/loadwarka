@@ -2,7 +2,7 @@
 
 set -e
 
-BIN='../cross/root/bin'
+BIN='vendor/cross/root/bin'
 CROSS="$BIN/i386-elf-"
 
 ./clean.sh
