@@ -3,9 +3,7 @@
 ##########################
 
 *.a
-*.bin
 *.c.d
-*.img
 *.o
 
 .deps/
@@ -15,6 +13,7 @@
 # Always generated in root #
 ############################
 
+/INSTALL
 /aclocal.m4
 /ar-lib
 /autom4te.cache/
@@ -32,6 +31,8 @@
 /missing
 /test-driver
 
+# Custom
+
 /Makefile.in
 
 ###########################################
@@ -44,11 +45,13 @@
 /stamp-h1
 /test-suite.log
 
-/Makefile
-
-/loadwarka
-
 /examples/*.log
 /examples/*.trs
 /tests/test*.log
 /tests/test*.trs
+
+# Custom
+
+/Makefile
+
+/loadwarka

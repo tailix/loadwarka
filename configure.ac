@@ -8,6 +8,7 @@ AC_INIT([loadwarka],
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([src/main.c])
 
+AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 
 
