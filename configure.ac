@@ -1,9 +1,9 @@
 AC_PREREQ([2.68])
-AC_INIT([testyboot],
+AC_INIT([loadwarka],
   [0.0.0],
-  [https://github.com/tailix/testyboot/issues],
-  [testyboot],
-  [https://github.com/tailix/testyboot])
+  [https://github.com/tailix/loadwarka/issues],
+  [loadwarka],
+  [https://github.com/tailix/loadwarka])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([src/main.c])

@@ -22,5 +22,5 @@ ${CROSS}gcc -c $SRC/main.c   -o $SRC/main.o
 ${CROSS}ld -T$SRC/linker.ld -o $SRC/stage1.bin $STAGE1_LDFLAGS $STAGE1_OBJS
 ${CROSS}ld -T$SRC/linker.ld -o $SRC/stage2.bin $STAGE2_LDFLAGS $STAGE2_OBJS
 
-./testyboot mbr mbr.bin $SRC/stage1.bin
+./loadwarka mbr mbr.bin $SRC/stage1.bin
 cat mbr.bin $SRC/stage2.bin > disk.img

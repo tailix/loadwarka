@@ -46,7 +46,7 @@
 
 /Makefile
 
-/testyboot
+/loadwarka
 
 /examples/*.log
 /examples/*.trs

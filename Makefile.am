@@ -4,7 +4,7 @@ AM_CFLAGS = \
 	-Wall \
 	-Wextra
 
-bin_PROGRAMS = testyboot
+bin_PROGRAMS = loadwarka
 
-testyboot_SOURCES = \
+loadwarka_SOURCES = \
 	src/main.c
